@@ -1,11 +1,14 @@
 
 "use client";
 
-import { useState, type FormEvent} from "react";
+import { useState, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 
 export default function SignupPage() {
+  const router = useRouter();
+
   const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -23,6 +26,12 @@ export default function SignupPage() {
     const password = String(form.get("password") || "");
     const confirmPassword = String(form.get("confirmPassword") || "");
 
+    if (!name) {
+      setMessage("Please enter your full name.");
+      setIsError(true);
+      return;
+    }
+
     if (password.length < 8) {
       setMessage("Password must be at least 8 characters.");
       setIsError(true);
@@ -30,7 +39,7 @@ export default function SignupPage() {
     }
 
     if (password !== confirmPassword) {
-      setMessage("Passwords do not match!");
+      setMessage("Passwords do not match.");
       setIsError(true);
       return;
     }
@@ -63,12 +72,14 @@ export default function SignupPage() {
       }
 
       if (data.session) {
-        setMessage("Account created successfully! You can now log in.");
-      } else {
-        setMessage(
-          "Signup successful! Check your email for the confirmation link."
-        );
+        router.replace("/dashboard");
+        return;
       }
+
+      setMessage(
+        "Signup successful! Check your email for the confirmation link. After confirming your email, please log in."
+      );
+      setIsError(false);
     } catch {
       setMessage("Something went wrong. Please try again.");
       setIsError(true);
@@ -80,7 +91,10 @@ export default function SignupPage() {
   return (
     <main className="flex min-h-screen items-center justify-center bg-slate-950 px-4 py-10 text-white">
       <div className="w-full max-w-md rounded-3xl border border-cyan-400/20 bg-slate-900 p-8">
-        <Link href="/" className="text-xl font-bold text-cyan-400">
+        <Link
+          href="/"
+          className="text-xl font-bold text-cyan-400"
+        >
           TrustVault
         </Link>
 
@@ -127,6 +141,7 @@ export default function SignupPage() {
             <label htmlFor="password" className="mb-2 block">
               Password
             </label>
+
             <div className="flex rounded-xl border border-white/10 bg-slate-950">
               <input
                 id="password"
@@ -138,6 +153,7 @@ export default function SignupPage() {
                 required
                 className="min-w-0 flex-1 bg-transparent px-4 py-3 outline-none"
               />
+
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
@@ -149,9 +165,13 @@ export default function SignupPage() {
           </div>
 
           <div>
-            <label htmlFor="confirmPassword" className="mb-2 block">
+            <label
+              htmlFor="confirmPassword"
+              className="mb-2 block"
+            >
               Confirm Password
             </label>
+
             <input
               id="confirmPassword"
               name="confirmPassword"
@@ -175,7 +195,8 @@ export default function SignupPage() {
           {message && (
             <p
               role="status"
-              className={`text-sm ${
+              aria-live="polite"
+              className={`break-words text-sm ${
                 isError ? "text-red-400" : "text-cyan-300"
               }`}
             >
@@ -186,7 +207,10 @@ export default function SignupPage() {
 
         <p className="mt-6 text-center text-gray-400">
           Already have an account?{" "}
-          <Link href="/login" className="text-cyan-400 hover:underline">
+          <Link
+            href="/login"
+            className="text-cyan-400 hover:underline"
+          >
             Login
           </Link>
         </p>
