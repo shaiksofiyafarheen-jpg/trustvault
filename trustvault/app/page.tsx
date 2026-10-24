@@ -1,4 +1,6 @@
 
+import Link from "next/link";
+
 export default function Home() {
   return (
     <main className="min-h-screen bg-slate-950 text-white">
@@ -8,15 +10,20 @@ export default function Home() {
         </h1>
 
         <div className="flex gap-6 items-center">
-          <a href="#features" className="text-gray-300">
+          <a href="#features" className="text-gray-300 hover:text-cyan-400">
             Features
           </a>
-          <a href="#about" className="text-gray-300">
+
+          <a href="#about" className="text-gray-300 hover:text-cyan-400">
             About
           </a>
-          <button className="rounded-lg bg-cyan-400 px-5 py-2 font-semibold text-slate-950">
+
+          <Link
+            href="/signup"
+            className="rounded-lg bg-cyan-400 px-5 py-2 font-semibold text-slate-950 hover:bg-cyan-300"
+          >
             Get Started
-          </button>
+          </Link>
         </div>
       </nav>
 
@@ -41,14 +48,14 @@ export default function Home() {
           <div className="mt-8 flex flex-wrap gap-4">
             <a
               href="#features"
-              className="rounded-lg bg-cyan-400 px-6 py-3 font-bold text-slate-950"
+              className="rounded-lg bg-cyan-400 px-6 py-3 font-bold text-slate-950 hover:bg-cyan-300"
             >
               Explore Features →
             </a>
 
             <a
               href="#about"
-              className="rounded-lg border border-white/20 px-6 py-3"
+              className="rounded-lg border border-white/20 px-6 py-3 hover:border-cyan-400"
             >
               Learn More
             </a>
@@ -57,9 +64,11 @@ export default function Home() {
 
         <div className="rounded-3xl border border-cyan-400/20 bg-slate-900 p-10 text-center shadow-2xl shadow-cyan-950">
           <div className="text-7xl">🔐</div>
+
           <h3 className="mt-6 text-3xl font-bold">
             Your Trust. Your Vault.
           </h3>
+
           <p className="mt-4 text-gray-400">
             A safer space for your digital life.
           </p>
@@ -68,6 +77,7 @@ export default function Home() {
             <p className="text-sm text-gray-400">
               Security status
             </p>
+
             <p className="mt-2 font-semibold text-cyan-400">
               Privacy-first experience
             </p>
@@ -103,9 +113,11 @@ export default function Home() {
               className="rounded-2xl border border-white/10 bg-slate-900 p-7"
             >
               <div className="text-4xl">{feature.icon}</div>
+
               <h3 className="mt-5 text-xl font-bold">
                 {feature.title}
               </h3>
+
               <p className="mt-3 leading-7 text-gray-400">
                 {feature.text}
               </p>
@@ -116,6 +128,7 @@ export default function Home() {
 
       <section id="about" className="px-8 py-16 text-center">
         <h2 className="text-3xl font-bold">About TrustVault</h2>
+
         <p className="mx-auto mt-4 max-w-2xl leading-7 text-gray-400">
           Our goal is to make digital security easier to understand
           and accessible through a simple, trustworthy experience.
